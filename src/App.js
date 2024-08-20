@@ -1,23 +1,37 @@
+// src/App.js
 import React, { useState } from 'react';
 import Header from './components/Header';
-import SideBar from './components/SideBar';
+import Sidebar from './components/SideBar';
+import MainContent from './components/MainContent';
+import './styles.css';
 import LyricsDisplay from './components/LyricsDisplay';
-import UploadLyrics from './components/UploadLyrics';
 
 const App = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [lyricsList, setLyricsList] = useState([]); // Manage lyrics list
+  const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
+  const [scrollSpeed, setScrollSpeed] = useState(5); // Scroll speed
+  const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <div className="app">
-      <Header />
-      <div className="main-content">
-        <SideBar onSelectFile={setSelectedFile} />
-        {selectedFile ? (
-          <LyricsDisplay fileUrl={selectedFile} />
-        ) : (
-          <UploadLyrics onUploadComplete={() => setSelectedFile(null)} />
-        )}
-      </div>
+    <div>
+      <Header
+      toggleSidebar={toggleSidebar}
+       />
+      <Sidebar
+        lyricsList={lyricsList}
+        onSelectLyrics={setSelectedLyrics}
+        isOpen={isOpen}
+        selectedLyrics={selectedLyrics}
+      />
+      <MainContent
+        scrollSpeed={scrollSpeed}
+        onScrollSpeedChange={setScrollSpeed}
+        isOpen={isOpen}
+      />
     </div>
   );
 };

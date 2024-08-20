@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
+// src/components/Sidebar.js
+import React, { useState, useEffect } from 'react';
+import { fetchFilesFromStorage } from '../utils/fetchFiles';
+import '../styles.css';
 
-const SideBar = ({ onSelectFile }) => {
+const Sidebar = ({ onSelectLyrics, isOpen }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
     const fetchFiles = async () => {
-      const storageRef = ref(storage, 'lyrics/');
-      const result = await listAll(storageRef);
-      const fileUrls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return { name: item.name, url };
-        })
-      );
-      setFiles(fileUrls);
+      const filesList = await fetchFilesFromStorage();
+      setFiles(filesList);
     };
 
     fetchFiles();
   }, []);
 
   return (
-    <div className="sidebar">
-      <button onClick={() => onSelectFile(null)}>Upload New</button>
-      <ul>
-        {files.map((file) => (
-          <li key={file.name} onClick={() => onSelectFile(file.url)}>
-            {file.name}
-          </li>
-        ))}
-      </ul>
+    <div>
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <ul>
+          {files.map((file, index) => (
+            <li key={index} onClick={() => onSelectLyrics(file)}>
+              {file.name}
+            </li>
+          ))}
+        </ul>
+        <div className="upload-lyrics">
+        <input type="file" />
+        <button>Upload Lyrics</button>
+      </div>
+      </div>
     </div>
   );
 };
 
-export default SideBar;
+export default Sidebar;

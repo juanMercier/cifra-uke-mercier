@@ -1,40 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
-import '../styles.css';
+// src/components/LyricsDisplay.js
+import React, { useState, useEffect } from 'react';
 
-
-const SideBar = ({ onSelectFile }) => {
-  const [files, setFiles] = useState([]);
+const LyricsDisplay = ({ fileUrl }) => {
+  const [lyrics, setLyrics] = useState('');
+  const [scrollSpeed, setScrollSpeed] = useState(1);
 
   useEffect(() => {
-    const fetchFiles = async () => {
-      const storageRef = ref(storage, 'lyrics/');
-      const result = await listAll(storageRef);
-      const fileUrls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return { name: item.name, url };
-        })
-      );
-      setFiles(fileUrls);
+    const fetchLyrics = async () => {
+      const response = await fetch(fileUrl);
+      const text = await response.text();
+      setLyrics(text);
     };
 
-    fetchFiles();
-  }, []);
+    if (fileUrl) {
+      fetchLyrics();
+    }
+  }, [fileUrl]);
+
+  useEffect(() => {
+    const scrollInterval = setInterval(() => {
+      window.scrollBy(0, scrollSpeed);
+    }, 100);
+
+    return () => clearInterval(scrollInterval);
+  }, [scrollSpeed]);
 
   return (
-    <div className="sidebar">
-      <button onClick={() => onSelectFile(null)}>Upload New</button>
-      <ul>
-        {files.map((file) => (
-          <li key={file.name} onClick={() => onSelectFile(file.url)}>
-            {file.name}
-          </li>
-        ))}
-      </ul>
+    <div className="lyrics-display">
+      <pre>{lyrics}</pre>
+      <input
+        type="range"
+        min="1"
+        max="10"
+        value={scrollSpeed}
+        onChange={(e) => setScrollSpeed(e.target.value)}
+      />
     </div>
   );
 };
 
-export default SideBar;
+export default LyricsDisplay;
