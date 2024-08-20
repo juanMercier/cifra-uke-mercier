@@ -13,6 +13,6 @@ const firebaseConfig = {
 console.log(process.env)
 
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app, process.env.STORAGE_BUCKET);
+const storage = getStorage(app);
 
 export { storage };
