@@ -4,10 +4,8 @@ import Header from './components/Header';
 import Sidebar from './components/SideBar';
 import MainContent from './components/MainContent';
 import './styles.css';
-import LyricsDisplay from './components/LyricsDisplay';
 
 const App = () => {
-  const [lyricsList, setLyricsList] = useState([]); // Manage lyrics list
   const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
   const [scrollSpeed, setScrollSpeed] = useState(5); // Scroll speed
   const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
@@ -18,16 +16,13 @@ const App = () => {
 
   return (
     <div>
-      <Header
-      toggleSidebar={toggleSidebar}
-       />
+      <Header toggleSidebar={toggleSidebar} />
       <Sidebar
-        lyricsList={lyricsList}
         onSelectLyrics={setSelectedLyrics}
         isOpen={isOpen}
-        selectedLyrics={selectedLyrics}
       />
       <MainContent
+        selectedLyrics={selectedLyrics}
         scrollSpeed={scrollSpeed}
         onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
