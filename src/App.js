@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/SideBar';
@@ -16,7 +15,11 @@ const App = () => {
 
   return (
     <div>
-      <Header toggleSidebar={toggleSidebar} />
+      <Header
+        toggleSidebar={toggleSidebar}
+        scrollSpeed={scrollSpeed}
+        onScrollSpeedChange={setScrollSpeed}
+      />
       <Sidebar
         onSelectLyrics={setSelectedLyrics}
         isOpen={isOpen}
@@ -24,7 +27,6 @@ const App = () => {
       <MainContent
         selectedLyrics={selectedLyrics}
         scrollSpeed={scrollSpeed}
-        onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
       />
     </div>

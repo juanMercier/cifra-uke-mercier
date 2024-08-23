@@ -7,6 +7,8 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -27,7 +29,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #2c3e50;
+    background-color: #d88b07;
     padding: 10px 20px;
     color: #ecf0f1;
   }
@@ -78,7 +80,7 @@ body {
   }
   
   .sidebar ul li:hover {
-    background-color: #3b5998;
+    background-color: #d88b07;
   }
   
   /* Toggle Button */
@@ -86,7 +88,7 @@ body {
     /* position: absolute; */
     left: 10px;
     top: 20px;
-    background-color: #2c3e50;
+    background-color: #d88b07;
     color: #ecf0f1;
     border: none;
     border-radius: 4px;
@@ -96,18 +98,13 @@ body {
   }
   
   .toggle-button:hover {
-    background-color: #3b5998;
+    background-color: #9d6300;
   }
   
   /* Main Content Styles */
   .main-content {
-    margin-left: 270px; /* Default margin for open sidebar */
-    padding: 20px;
-    overflow-y: auto;
-    transition: margin-left 0.3s ease;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    padding-left: 200px;
+    padding-right: 200px;
   }
   
   .main-content.collapsed {
@@ -116,17 +113,18 @@ body {
   
   
   .lyrics-display {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Prevent scrollbars inside the PDF viewer */
-    position: relative;
+    max-height: 100vh; /* or any height you want */
+    overflow-y: auto; /* Makes the div scrollable */
+    scrollbar-width: thin; /* Firefox */
   }
   
-  .lyrics-display object,
-  .lyrics-display iframe {
-    width: 100%;
-    height: 100%;
-    border: none; /* Remove borders */
+  .lyrics-display::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar for WebKit browsers */
+  }
+  
+  .lyrics-display::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded scrollbar thumb */
   }
   
   /* Upload Lyrics Styles */
@@ -138,6 +136,46 @@ body {
   
   .upload-lyrics input[type="file"] {
     margin-bottom: 10px;
+  }
+  
+  .scroll-speed-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .scroll-speed-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .scroll-speed-buttons button {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #d88b07;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .scroll-speed-buttons button:hover{
+    background-color: #9d6300;
+  }
+  
+  .scroll-speed-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .scroll-speed-buttons span {
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 30px;
+    text-align: center;
   }
   
   .upload-lyrics button {
@@ -160,7 +198,7 @@ body {
       flex-direction: column;
       text-align: center;
     }
-  
+    scroll-speed-control
     .sidebar {
       width: 100%;
       height: auto;

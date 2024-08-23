@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { convertPdfToImages } from '../utils/pdfToImage';
 import '../styles.css';
 
-const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen }) => {
+const MainContent = ({ selectedLyrics, scrollSpeed, isOpen }) => {
   const lyricsDisplayRef = useRef(null);
   const [imageUrls, setImageUrls] = useState([]);
 
@@ -27,14 +27,15 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
     if (imageUrls.length > 0 && scrollSpeed > 0 && lyricsDisplayRef.current) {
       const scroll = () => {
         if (lyricsDisplayRef.current) {
+          // Scrolls by the speed set
           lyricsDisplayRef.current.scrollBy(0, scrollSpeed);
         }
       };
 
-      scrollInterval = setInterval(scroll, 100);
+      scrollInterval = setInterval(scroll, 100); // Adjust the interval timing as needed
     }
 
-    return () => clearInterval(scrollInterval);
+    return () => clearInterval(scrollInterval); // Clears interval when component unmounts
   }, [scrollSpeed, imageUrls]);
 
   return (
@@ -48,13 +49,6 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
           <pre>Select a song from the sidebar.</pre>
         )}
       </div>
-      <input
-        type="range"
-        min="1"
-        max="10"
-        value={scrollSpeed}
-        onChange={(e) => onScrollSpeedChange(Number(e.target.value))}
-      />
     </div>
   );
 };
