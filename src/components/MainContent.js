@@ -1,14 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { convertPdfToImages } from '../utils/pdfToImage';
 import '../styles.css';
 
 const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen }) => {
   const lyricsDisplayRef = useRef(null);
+  const [imageUrls, setImageUrls] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (selectedLyrics && selectedLyrics.url) {
+        try {
+          const images = await convertPdfToImages(selectedLyrics.url);
+          setImageUrls(images);
+        } catch (error) {
+          console.error('Failed to fetch and convert PDF to images:', error);
+        }
+      }
+    };
+
+    fetchImages();
+  }, [selectedLyrics]);
 
   useEffect(() => {
     let scrollInterval;
 
-    if (selectedLyrics && scrollSpeed > 0 && lyricsDisplayRef.current) {
-      // Scroll function
+    if (imageUrls.length > 0 && scrollSpeed > 0 && lyricsDisplayRef.current) {
       const scroll = () => {
         if (lyricsDisplayRef.current) {
           lyricsDisplayRef.current.scrollBy(0, scrollSpeed);
@@ -19,34 +35,26 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
     }
 
     return () => clearInterval(scrollInterval);
-  }, [scrollSpeed, selectedLyrics]);
+  }, [scrollSpeed, imageUrls]);
 
   return (
     <div className={`main-content ${isOpen ? '' : 'collapsed'}`}>
       <div ref={lyricsDisplayRef} className="lyrics-display">
-        {selectedLyrics ? (
-          <object
-            data={selectedLyrics.url}
-            type="application/pdf"
-            width="100%"
-            height="100%"
-          >
-            <iframe
-              src={selectedLyrics.url}
-              width="100%"
-              height="100%"
-              style={{ border: 'none' }}
-            >
-              <p>
-                Your browser does not support PDFs.
-                <a href={selectedLyrics.url}>Download the PDF</a>
-              </p>
-            </iframe>
-          </object>
+        {imageUrls.length > 0 ? (
+          imageUrls.map((url, index) => (
+            <img key={index} src={url} alt={`Page ${index + 1}`} style={{ width: '100%' }} />
+          ))
         ) : (
           <pre>Select a song from the sidebar.</pre>
         )}
       </div>
+      <input
+        type="range"
+        min="1"
+        max="10"
+        value={scrollSpeed}
+        onChange={(e) => onScrollSpeedChange(Number(e.target.value))}
+      />
     </div>
   );
 };
