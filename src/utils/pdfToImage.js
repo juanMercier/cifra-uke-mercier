@@ -1,42 +1,37 @@
-import { PDFDocument } from 'pdf-lib';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/build/pdf';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
 
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 export const convertPdfToImages = async (pdfUrl) => {
-  try {
-    const response = await fetch(pdfUrl, { mode: 'no-cors' });
+    try {
+        
+        const pdf = await getDocument(pdfUrl).promise;
+        const numPages = pdf.numPages;
+        const imageUrls = [];
 
-    console.log({response: response})
+        for (let i = 1; i <= numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+            };
+
+            await page.render(renderContext).promise;
+            const imageUrl = canvas.toDataURL('image/png');
+            imageUrls.push(imageUrl);
+        }
+
+        return imageUrls;
     }
-
-    const contentType = response.headers.get("content-type");
-    if (contentType !== "application/pdf") {
-      throw new Error("Fetched content is not a PDF");
+    catch (error) {
+        console.error('Error converting PDF to image:', error);
+        throw error;
     }
-
-    const pdfBytes = await response.arrayBuffer();
-
-    console.log({pdfBytes: pdfBytes})
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-
-    console.log({pdfDoc: pdfDoc})
-    const imageUrls = [];
-    const numPages = pdfDoc.getPageCount();
-
-    for (let i = 0; i < numPages; i++) {
-      const page = pdfDoc.getPage(i);
-
-      // Create a PNG image from the page
-      const scale = 2; // adjust the scale for higher quality images
-      const pngImage = await page.render({ scale }).toDataURL('image/png');
-
-      imageUrls.push(pngImage);
-    }
-
-    return imageUrls;
-  } catch (error) {
-    console.error('Error converting PDF to images:', error);
-    throw error;
-  }
 };
