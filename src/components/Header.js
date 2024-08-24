@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import '../styles.css';
 
-const Header = ({ toggleSidebar, onScrollSpeedChange, scrollSpeed }) => {
-  const [isSearchVisible, setSearchVisible] = useState(false);
+const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange, onSearch, lyricsList }) => {
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const toggleSearchBar = () => {
-    setSearchVisible(!isSearchVisible);
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    onSearch(query); // Call the search function passed as a prop
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSearch(searchQuery, true); // Trigger search on Enter key
+    }
   };
 
   return (
@@ -13,18 +21,34 @@ const Header = ({ toggleSidebar, onScrollSpeedChange, scrollSpeed }) => {
       <button className="toggle-button" onClick={toggleSidebar}>
         ☰
       </button>
+
       <div className="scroll-speed-control">
-        <button onClick={() => onScrollSpeedChange(scrollSpeed - 1)}>-</button>
-        <span>{scrollSpeed}</span>
-        <button onClick={() => onScrollSpeedChange(scrollSpeed + 1)}>+</button>
+        <label>Speed: </label>
+        <div className="scroll-speed-buttons">
+          <button
+            onClick={() => onScrollSpeedChange(scrollSpeed - 1)}
+            disabled={scrollSpeed <= 0}
+          >
+            -
+          </button>
+          <span>{scrollSpeed}</span>
+          <button
+            onClick={() => onScrollSpeedChange(scrollSpeed + 1)}
+            disabled={scrollSpeed >= 5}
+          >
+            +
+          </button>
+        </div>
       </div>
-      <button className="search-button" onClick={toggleSearchBar}>
-        🔍
-      </button>
+
+      <div className="logo">UkeMercier</div>
+
       <input
         type="text"
         placeholder="Search lyrics..."
-        className={`search-bar ${isSearchVisible ? 'show' : ''}`}
+        value={searchQuery}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
     </header>
   );

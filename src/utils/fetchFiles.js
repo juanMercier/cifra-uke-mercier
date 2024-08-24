@@ -11,7 +11,7 @@ export const fetchFilesFromStorage = async () => {
       res.items.map(async (itemRef) => {
         const url = await getDownloadURL(itemRef);
         return {
-          name: itemRef.name,
+          name: changeFileName(itemRef.name),
           url,
         };
       })
@@ -23,3 +23,10 @@ export const fetchFilesFromStorage = async () => {
     return [];
   }
 };
+
+
+function changeFileName(filename){
+    const regex = /^\d+\s*/;
+    const result = filename.replace(regex, '');
+    return result.split('.').slice(0, -1).join('.');
+}

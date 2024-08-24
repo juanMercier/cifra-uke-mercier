@@ -1,25 +1,15 @@
 // src/components/Sidebar.js
 import React, { useState, useEffect } from 'react';
-import { fetchFilesFromStorage } from '../utils/fetchFiles';
 import '../styles.css';
 
-const Sidebar = ({ onSelectLyrics, isOpen }) => {
-  const [files, setFiles] = useState([]);
+const Sidebar = ({ onSelectLyrics, isOpen, lyricsList }) => {
 
-  useEffect(() => {
-    const fetchFiles = async () => {
-      const filesList = await fetchFilesFromStorage();
-      setFiles(filesList);
-    };
-
-    fetchFiles();
-  }, []);
 
   return (
     <div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <ul>
-          {files.map((file, index) => (
+          {lyricsList.map((file, index) => (
             <li key={index} onClick={() => onSelectLyrics(file)}>
               {file.name}
             </li>
