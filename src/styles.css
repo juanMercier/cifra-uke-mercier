@@ -210,3 +210,44 @@ body {
     }
   }
   
+
+  @media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    header .logo {
+        font-size: 20px;
+        margin-left: 0;
+    }
+
+    header input[type="text"] {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .toggle-button {
+        padding: 8px;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+        padding: 10px;
+    }
+
+    .main-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .scroll-speed-control {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .scroll-speed-buttons {
+        justify-content: center;
+        gap: 10px;
+    }
+}

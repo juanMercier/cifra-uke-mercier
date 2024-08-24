@@ -6,7 +6,7 @@ import './styles.css';
 
 const App = () => {
   const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
-  const [scrollSpeed, setScrollSpeed] = useState(5); // Scroll speed
+  const [scrollSpeed, setScrollSpeed] = useState(0); // Scroll speed
   const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
 
   const toggleSidebar = () => {
@@ -27,6 +27,7 @@ const App = () => {
       <MainContent
         selectedLyrics={selectedLyrics}
         scrollSpeed={scrollSpeed}
+        onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
       />
     </div>

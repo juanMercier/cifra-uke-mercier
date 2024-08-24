@@ -8,7 +8,7 @@ const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange }) => {
         ☰
       </button>
       <div className="scroll-speed-control">
-      <label>Scroll Speed: </label>
+      <label>Speed: </label>
       <div className="scroll-speed-buttons">
         <button
           onClick={() => onScrollSpeedChange(scrollSpeed - 1)}
@@ -19,7 +19,7 @@ const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange }) => {
         <span>{scrollSpeed}</span>
         <button
           onClick={() => onScrollSpeedChange(scrollSpeed + 1)}
-          disabled={scrollSpeed >= 10}
+          disabled={scrollSpeed >= 5}
         >
           +
         </button>
