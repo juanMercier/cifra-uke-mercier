@@ -10,9 +10,7 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_APP_ID
 };
 
-console.log(process.env)
-
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app, process.env.STORAGE_BUCKET);
+const storage = getStorage(app);
 
 export { storage };
