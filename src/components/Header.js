@@ -1,33 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles.css';
 
-const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange }) => {
+const Header = ({ toggleSidebar, onScrollSpeedChange, scrollSpeed }) => {
+  const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const toggleSearchBar = () => {
+    setSearchVisible(!isSearchVisible);
+  };
+
   return (
     <header>
       <button className="toggle-button" onClick={toggleSidebar}>
         ☰
       </button>
       <div className="scroll-speed-control">
-      <label>Speed: </label>
-      <div className="scroll-speed-buttons">
-        <button
-          onClick={() => onScrollSpeedChange(scrollSpeed - 1)}
-          disabled={scrollSpeed <= 0}
-        >
-          -
-        </button>
+        <button onClick={() => onScrollSpeedChange(scrollSpeed - 1)}>-</button>
         <span>{scrollSpeed}</span>
-        <button
-          onClick={() => onScrollSpeedChange(scrollSpeed + 1)}
-          disabled={scrollSpeed >= 5}
-        >
-          +
-        </button>
+        <button onClick={() => onScrollSpeedChange(scrollSpeed + 1)}>+</button>
       </div>
-    </div>
-      <div className="logo">UkeMercier</div>
-
-      <input type="text" placeholder="Search lyrics..." />
+      <button className="search-button" onClick={toggleSearchBar}>
+        🔍
+      </button>
+      <input
+        type="text"
+        placeholder="Search lyrics..."
+        className={`search-bar ${isSearchVisible ? 'show' : ''}`}
+      />
     </header>
   );
 };

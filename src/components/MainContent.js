@@ -28,7 +28,7 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
       const scroll = () => {
         if (lyricsDisplayRef.current) {
           // Scrolls by the speed set
-          lyricsDisplayRef.current.scrollBy(0, scrollSpeed * 0.8);
+          lyricsDisplayRef.current.scrollBy(0, scrollSpeed * 0.7);
         }
       };
 
