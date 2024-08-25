@@ -2,18 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/SideBar';
 import MainContent from './components/MainContent';
+import { fetchFilesFromStorage } from './utils/fetchFiles'; // Assuming you have a fetchFiles utility
 import './styles.css';
-import { fetchFilesFromStorage } from './utils/fetchFiles';
 
 const App = () => {
   const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
   const [scrollSpeed, setScrollSpeed] = useState(0); // Scroll speed
-  const [isOpen, setIsOpen] = useState(false);
-  const [lyricsList, setLyricsList] = useState([]); 
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
+  const [lyricsList, setLyricsList] = useState([]); // List of lyrics files
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -24,10 +20,16 @@ const App = () => {
     fetchFiles();
   }, []);
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   const handleSearch = (query, selectFirstMatch = false) => {
-    // Filter the lyrics based on the query
+    // Ensure query is a string
+    if (typeof query !== 'string') return;
+
     const filteredLyrics = lyricsList.filter(lyrics =>
-      lyrics.toLowerCase().includes(query.toLowerCase())
+      lyrics.name.toLowerCase().includes(query.toLowerCase())
     );
 
     if (selectFirstMatch && filteredLyrics.length > 0) {
@@ -43,15 +45,18 @@ const App = () => {
         scrollSpeed={scrollSpeed}
         onScrollSpeedChange={setScrollSpeed}
         onSearch={handleSearch} // Pass the search handler to Header
+        lyricsList={lyricsList} // Pass the lyrics list to Header
       />
       <Sidebar
         onSelectLyrics={setSelectedLyrics}
         isOpen={isOpen}
+        close = {setIsOpen}
         lyricsList={lyricsList} // Pass the lyrics list to Sidebar
       />
       <MainContent
         selectedLyrics={selectedLyrics}
         scrollSpeed={scrollSpeed}
+        onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
       />
     </div>
