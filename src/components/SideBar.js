@@ -1,5 +1,5 @@
 // src/components/Sidebar.js
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../styles.css';
 
 const Sidebar = ({ onSelectLyrics, isOpen, close: onIsOpen, lyricsList }) => {
@@ -19,10 +19,6 @@ const Sidebar = ({ onSelectLyrics, isOpen, close: onIsOpen, lyricsList }) => {
             </li>
           ))}
         </ul>
-        <div className="upload-lyrics">
-          <input type="file" />
-          <button>Upload Lyrics</button>
-        </div>
       </div>
     </div >
   );

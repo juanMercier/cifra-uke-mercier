@@ -189,14 +189,17 @@ body {
 
   /* Upload Lyrics Styles */
   .upload-lyrics {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+    position: 'fixed';
+    bottom: '20px';
+    right: '20px';
+    width: '60px';
+    height: '60px';
+    color: '#4285F4';
+    border: 'none';
+    cursor: 'pointer';
+    display: 'flex';
   }
   
-  .upload-lyrics input[type="file"] {
-    margin-bottom: 10px;
-  }
   
   .scroll-speed-control {
     display: flex;
@@ -250,6 +253,20 @@ body {
   
   .upload-lyrics button:hover {
     background-color: #2980b9;
+  }
+
+
+  .fade-out {
+    animation: fadeOut 5s ease-out forwards;
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
   
   /* Responsive Styles */

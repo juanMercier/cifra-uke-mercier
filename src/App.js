@@ -4,13 +4,13 @@ import Sidebar from './components/SideBar';
 import MainContent from './components/MainContent';
 import { fetchFilesFromStorage } from './utils/fetchFiles'; // Assuming you have a fetchFiles utility
 import './styles.css';
+import UploadLyrics from './components/UploadLyrics';
 
 const App = () => {
   const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
   const [scrollSpeed, setScrollSpeed] = useState(0); // Scroll speed
   const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
   const [lyricsList, setLyricsList] = useState([]); // List of lyrics files
-
   useEffect(() => {
     const fetchFiles = async () => {
       const filesList = await fetchFilesFromStorage();
@@ -58,7 +58,9 @@ const App = () => {
         scrollSpeed={scrollSpeed}
         onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
+
       />
+      <UploadLyrics />
     </div>
   );
 };
