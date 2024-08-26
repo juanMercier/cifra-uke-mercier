@@ -254,6 +254,20 @@ body {
   .upload-lyrics button:hover {
     background-color: #2980b9;
   }
+
+
+  .fade-out {
+    animation: fadeOut 5s ease-out forwards;
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
   
   /* Responsive Styles */
   @media (max-width: 768px) {

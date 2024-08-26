@@ -11,7 +11,6 @@ const App = () => {
   const [scrollSpeed, setScrollSpeed] = useState(0); // Scroll speed
   const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
   const [lyricsList, setLyricsList] = useState([]); // List of lyrics files
-  const [uploadedFile, setUploadedFile]  = useState(false)
   useEffect(() => {
     const fetchFiles = async () => {
       const filesList = await fetchFilesFromStorage();
@@ -59,11 +58,9 @@ const App = () => {
         scrollSpeed={scrollSpeed}
         onScrollSpeedChange={setScrollSpeed}
         isOpen={isOpen}
-        
+
       />
-      <UploadLyrics 
-        onUploadComplete={setUploadedFile}
-      />
+      <UploadLyrics />
     </div>
   );
 };
