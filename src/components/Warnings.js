@@ -3,8 +3,6 @@ import '../styles.css';
 
 export const Warnings = ({ uploadStatus }) => {
 
-    console.log("Complete");
-    console.log({uploadStatus: uploadStatus})
   return (
     uploadStatus && (
       <div 

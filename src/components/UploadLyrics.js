@@ -14,7 +14,7 @@ const UploadLyrics = () => {
 
   const handleUpload = async (selectedFile) => {
     if (selectedFile) {
-      const storageRef = ref(storage, `uploadExample/${selectedFile.name}`);
+      const storageRef = ref(storage, `lyrics/${selectedFile.name}`);
       try {
         await uploadBytes(storageRef, selectedFile);
         console.log('Upload Complete!');
