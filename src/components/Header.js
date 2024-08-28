@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
 const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange, onSearch, lyricsList }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredLyrics, setFilteredLyrics] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleInputChange = (e) => {
     const query = e.target.value;
@@ -15,17 +18,25 @@ const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange, onSearch, lyr
   };
 
   const handleSelectLyrics = (lyrics) => {
-    setSearchQuery('');  // Use lyrics.name here
-    onSearch(lyrics.name, true);  // Pass lyrics.name to the onSearch function
-    setFilteredLyrics([]); // Clear the dropdown
+    setSearchQuery('');
+    onSearch(lyrics.name, true);
+    setFilteredLyrics([]);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && filteredLyrics.length > 0) {
-      handleSelectLyrics(filteredLyrics[0]); // Select the first matching lyrics on Enter
+      handleSelectLyrics(filteredLyrics[0]);
     }
   };
 
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      onScrollSpeedChange(0);
+    } else {
+      onScrollSpeedChange(scrollSpeed > 0 ? scrollSpeed : 2);
+    }
+    setIsPlaying(!isPlaying);
+  };
   return (
     <header>
       <button className="toggle-button" onClick={toggleSidebar}>
@@ -36,17 +47,25 @@ const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange, onSearch, lyr
         <label>Speed: </label>
         <div className="scroll-speed-buttons">
           <button
+            className="scroll-speed-control-button"
             onClick={() => onScrollSpeedChange(scrollSpeed - 1)}
-            disabled={scrollSpeed <= 0}
+            disabled={scrollSpeed <= 0|| !isPlaying}
           >
             -
           </button>
           <span>{scrollSpeed}</span>
           <button
+            className="scroll-speed-control-button"
             onClick={() => onScrollSpeedChange(scrollSpeed + 1)}
-            disabled={scrollSpeed >= 5}
+            disabled={scrollSpeed >= 5|| !isPlaying}
           >
             +
+          </button>
+          <button
+            className="scroll-speed-control-button play-pause-button"
+            onClick={togglePlayPause}
+          >
+            {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
           </button>
         </div>
       </div>
@@ -65,7 +84,7 @@ const Header = ({ toggleSidebar, scrollSpeed, onScrollSpeedChange, onSearch, lyr
           <ul className="search-dropdown">
             {filteredLyrics.map((lyrics, index) => (
               <li key={index} onClick={() => handleSelectLyrics(lyrics)}>
-                {lyrics.name}  {/* Display the name property */}
+                {lyrics.name}
               </li>
             ))}
           </ul>
