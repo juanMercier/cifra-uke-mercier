@@ -27,7 +27,7 @@ const App = () => {
   const handleSearch = (query, selectFirstMatch = false) => {
     if (typeof query !== 'string') return;
 
-    const filteredLyrics = lyricsList.filter(lyrics =>
+  const filteredLyrics = lyricsList.filter(lyrics =>
       lyrics.name.toLowerCase().includes(query.toLowerCase())
     );
 
