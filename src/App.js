@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/SideBar';
 import MainContent from './components/MainContent';
-import { fetchFilesFromStorage } from './utils/fetchFiles'; // Assuming you have a fetchFiles utility
+import { fetchFilesFromStorage } from './utils/fetchFiles';
 import './styles.css';
 import UploadLyrics from './components/UploadLyrics';
 
 const App = () => {
-  const [selectedLyrics, setSelectedLyrics] = useState(null); // Selected lyrics
-  const [scrollSpeed, setScrollSpeed] = useState(0); // Scroll speed
-  const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
-  const [lyricsList, setLyricsList] = useState([]); // List of lyrics files
+  const [selectedLyrics, setSelectedLyrics] = useState(null);
+  const [scrollSpeed, setScrollSpeed] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [lyricsList, setLyricsList] = useState([]);
   useEffect(() => {
     const fetchFiles = async () => {
       const filesList = await fetchFilesFromStorage();
@@ -25,7 +25,6 @@ const App = () => {
   };
 
   const handleSearch = (query, selectFirstMatch = false) => {
-    // Ensure query is a string
     if (typeof query !== 'string') return;
 
     const filteredLyrics = lyricsList.filter(lyrics =>
@@ -33,8 +32,8 @@ const App = () => {
     );
 
     if (selectFirstMatch && filteredLyrics.length > 0) {
-      setSelectedLyrics(filteredLyrics[0]); // Select the first matching lyrics
-      setIsOpen(false); // Close the sidebar if open
+      setSelectedLyrics(filteredLyrics[0]);
+      setIsOpen(false);
     }
   };
 
@@ -44,14 +43,14 @@ const App = () => {
         toggleSidebar={toggleSidebar}
         scrollSpeed={scrollSpeed}
         onScrollSpeedChange={setScrollSpeed}
-        onSearch={handleSearch} // Pass the search handler to Header
-        lyricsList={lyricsList} // Pass the lyrics list to Header
+        onSearch={handleSearch}
+        lyricsList={lyricsList}
       />
       <Sidebar
         onSelectLyrics={setSelectedLyrics}
         isOpen={isOpen}
         close = {setIsOpen}
-        lyricsList={lyricsList} // Pass the lyrics list to Sidebar
+        lyricsList={lyricsList}
       />
       <MainContent
         selectedLyrics={selectedLyrics}
