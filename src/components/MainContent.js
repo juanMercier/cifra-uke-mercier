@@ -30,19 +30,19 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
           let scrollAmount = 0;
           switch (scrollSpeed) {
             case 1:
-              scrollAmount = 0.69;
+              scrollAmount = 0.7;
               break;
             case 2:
-              scrollAmount = 1.2;
+              scrollAmount = 0.8;
               break;
             case 3:
-              scrollAmount = 1.5;
+              scrollAmount = 1;
               break;
             case 4:
-              scrollAmount = 1.7;
+              scrollAmount =1.2;
               break;
             case 5:
-              scrollAmount = 2;
+              scrollAmount = 1.5;
               break;
             default:
               scrollAmount = 0;
@@ -53,7 +53,7 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
         }
       };
 
-      scrollInterval = setInterval(scroll, 20);
+      scrollInterval = setInterval(scroll, 50);
     }
 
     return () => clearInterval(scrollInterval);
