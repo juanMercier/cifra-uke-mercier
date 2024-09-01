@@ -27,20 +27,41 @@ const MainContent = ({ selectedLyrics, scrollSpeed, onScrollSpeedChange, isOpen 
     if (imageUrls.length > 0 && scrollSpeed > 0 && lyricsDisplayRef.current) {
       const scroll = () => {
         if (lyricsDisplayRef.current) {
-          // Scrolls by the speed set
-          lyricsDisplayRef.current.scrollBy(0, scrollSpeed * 0.5);
+          let scrollAmount = 0;
+          switch (scrollSpeed) {
+            case 1:
+              scrollAmount = 0.7;
+              break;
+            case 2:
+              scrollAmount = 0.8;
+              break;
+            case 3:
+              scrollAmount = 1;
+              break;
+            case 4:
+              scrollAmount =1.2;
+              break;
+            case 5:
+              scrollAmount = 1.5;
+              break;
+            default:
+              scrollAmount = 0;
+              break;
+          }
+
+          lyricsDisplayRef.current.scrollBy(0, scrollAmount);
         }
       };
 
-      scrollInterval = setInterval(scroll, 40); // Adjust the interval timing as needed
+      scrollInterval = setInterval(scroll, 50);
     }
 
-    return () => clearInterval(scrollInterval); // Clears interval when component unmounts
+    return () => clearInterval(scrollInterval);
   }, [scrollSpeed, imageUrls]);
 
   useEffect(() => {
     if (lyricsDisplayRef.current) {
-      lyricsDisplayRef.current.scrollTop = 0; // Reset scroll position to the top
+      lyricsDisplayRef.current.scrollTop = 0;
     }
   }, [imageUrls]);
 

@@ -11,7 +11,7 @@ const ScrollSpeedSetter = ({scrollSpeed, onScrollSpeedChange}) => {
         if (isPlaying) {
           onScrollSpeedChange(0);
         } else {
-          onScrollSpeedChange(scrollSpeed > 0 ? scrollSpeed : 2);
+          onScrollSpeedChange(scrollSpeed > 0 ? scrollSpeed : 1);
         }
         setIsPlaying(!isPlaying);
       };
