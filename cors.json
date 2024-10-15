@@ -1,8 +1,19 @@
 [
-    {
-      "origin": ["http://localhost:3000", "https://cifra-uke-mercier.web.app/"],
-      "method": ["GET", "HEAD"],
-      "maxAgeSeconds": 3600,
-      "responseHeader": ["Content-Type"]
-    }
-  ]
+  {
+    "origin": [
+      "http://localhost:3000",
+      "https://cifra-uke-mercier.web.app/",
+      "https://www.ukemercier.pt",
+      "https://ukemercier.pt",
+      "https://uke-mercier-website.vercel.app"
+    ],
+    "method": [
+      "GET",
+      "HEAD"
+    ],
+    "maxAgeSeconds": 3600,
+    "responseHeader": [
+      "Content-Type"
+    ]
+  }
+]
